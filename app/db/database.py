@@ -3,7 +3,7 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 from app.core.config import settings
 
-database_url = settings.DATABASE_URL
+database_url = settings.DATABASE_URL.replace("postgres://", "postgresql://", 1)
 engine_options: dict[str, object] = {"pool_pre_ping": True}
 
 if database_url.startswith("sqlite"):
