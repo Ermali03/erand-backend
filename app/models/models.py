@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 from app.db.database import Base
 
@@ -25,6 +25,16 @@ class Patient(Base):
     id = Column(String, primary_key=True, index=True)
     full_name = Column(String, index=True)
     date_of_birth = Column(String, nullable=True)
+    gender = Column(String, nullable=True, default="male")
+    address = Column(String, nullable=True)
+    phone = Column(String, nullable=True)
+    emergency_contact = Column(String, nullable=True)
+    admission_source = Column(String, nullable=True, default="ED")
+    admission_datetime = Column(String, nullable=True)
+    reason_for_admission = Column(String, nullable=True)
+    past_medical_history = Column(String, nullable=True)
+    allergies = Column(String, nullable=True)
+    current_medications = Column(String, nullable=True)
     status = Column(String, default="admitted")
     is_operated = Column(Boolean, default=False)
     
@@ -50,6 +60,7 @@ class EpicrisisRecord(Base):
     patient_id = Column(String, ForeignKey("patients.id"), unique=True, nullable=False)
     diagnosis = Column(String)
     treatment_plan = Column(String)
+    structured_data = Column(Text, nullable=True)
     
     patient = relationship("Patient", back_populates="epicrisis")
 
@@ -62,6 +73,7 @@ class SurgeryRecord(Base):
     surgeon_id = Column(String, ForeignKey("doctors.id"))
     date = Column(String)
     notes = Column(String)
+    structured_data = Column(Text, nullable=True)
     
     patient = relationship("Patient", back_populates="surgery")
     surgeon = relationship("Doctor")
@@ -73,5 +85,6 @@ class DischargeRecord(Base):
     patient_id = Column(String, ForeignKey("patients.id"), unique=True, nullable=False)
     discharge_date = Column(String)
     instructions = Column(String)
+    structured_data = Column(Text, nullable=True)
     
     patient = relationship("Patient", back_populates="discharge_report")

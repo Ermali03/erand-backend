@@ -18,6 +18,16 @@ class Doctor(DoctorBase):
 class PatientBase(BaseModel):
     full_name: str
     date_of_birth: Optional[str] = None
+    gender: Optional[str] = "male"
+    address: Optional[str] = None
+    phone: Optional[str] = None
+    emergency_contact: Optional[str] = None
+    admission_source: Optional[str] = "ED"
+    admission_datetime: Optional[str] = None
+    reason_for_admission: Optional[str] = None
+    past_medical_history: Optional[str] = None
+    allergies: Optional[str] = None
+    current_medications: Optional[str] = None
     status: str = "admitted"
     is_operated: bool = False
 
@@ -27,6 +37,16 @@ class PatientCreate(PatientBase):
 class PatientUpdate(BaseModel):
     full_name: Optional[str] = None
     date_of_birth: Optional[str] = None
+    gender: Optional[str] = None
+    address: Optional[str] = None
+    phone: Optional[str] = None
+    emergency_contact: Optional[str] = None
+    admission_source: Optional[str] = None
+    admission_datetime: Optional[str] = None
+    reason_for_admission: Optional[str] = None
+    past_medical_history: Optional[str] = None
+    allergies: Optional[str] = None
+    current_medications: Optional[str] = None
     status: Optional[str] = None
     is_operated: Optional[bool] = None
 
@@ -51,6 +71,7 @@ class Anamnesis(AnamnesisBase):
 class EpicrisisBase(BaseModel):
     diagnosis: str
     treatment_plan: str
+    structured_data: Optional[str] = None
 
 class EpicrisisCreate(EpicrisisBase):
     patient_id: str
@@ -65,6 +86,7 @@ class SurgeryBase(BaseModel):
     procedure_name: str
     date: str
     notes: str
+    structured_data: Optional[str] = None
 
 class SurgeryCreate(SurgeryBase):
     patient_id: str
@@ -80,6 +102,7 @@ class Surgery(SurgeryBase):
 class DischargeBase(BaseModel):
     discharge_date: str
     instructions: str
+    structured_data: Optional[str] = None
 
 class DischargeCreate(DischargeBase):
     patient_id: str
