@@ -12,8 +12,10 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy application code (alembic.ini + alembic/ must be present at image root)
 COPY . .
 
-# Apply migrations, then run API server on the host-provided port when available.
-CMD ["sh", "-c", "alembic upgrade head && fastapi run app/main.py --port ${PORT:-8000} --host 0.0.0.0"]
+RUN test -f alembic.ini && grep -q "script_location" alembic.ini
+
+# Migrations then API. Use explicit -c so Alembic always finds config in /app.
+CMD ["sh", "-c", "python -m alembic -c alembic.ini upgrade head && exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
