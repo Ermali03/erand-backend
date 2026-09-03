@@ -44,3 +44,6 @@ logs/
 *.key
 
 .mypy_cache/
+
+# Vercel
+.vercel
